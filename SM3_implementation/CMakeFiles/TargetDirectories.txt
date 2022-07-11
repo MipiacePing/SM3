@@ -1,3 +1,0 @@
-/mnt/d/junior_term2/创新实践/SM3/my_SM3/CMakeFiles/SM3.dir
-/mnt/d/junior_term2/创新实践/SM3/my_SM3/CMakeFiles/edit_cache.dir
-/mnt/d/junior_term2/创新实践/SM3/my_SM3/CMakeFiles/rebuild_cache.dir
