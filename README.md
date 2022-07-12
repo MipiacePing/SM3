@@ -3,7 +3,7 @@
 包含多个文件夹，有SM3实现，SM3生日攻击BirthdayAttack，SM3长度拓展攻击Length extension attack，SM3的Rho攻击
 
 
-## 1：SM3 实现
+## 1：SM3 implementation 实现
 ### 参考
   1.  SM3国家标准：http://c.gb688.cn/bzgk/gb/showGb?type=online&hcno=45B1A67F20F3BF339211C391E9278F5E
   2.  openssl sm3实现：https://github.com/openssl/openssl/search?q=sm3
