@@ -57,10 +57,10 @@ RM = /usr/local/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/d/junior_term2/创新实践/SM3/my_SM3/SM3_implementation
+CMAKE_SOURCE_DIR = /mnt/d/junior_term2/创新实践/SM3/my_SM3
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /mnt/d/junior_term2/创新实践/SM3/my_SM3/SM3_implementation/build
+CMAKE_BINARY_DIR = /mnt/d/junior_term2/创新实践/SM3/my_SM3
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/junior_term2/创新实践/SM3/my_SM3/SM3_implementation/build/CMakeFiles /mnt/d/junior_term2/创新实践/SM3/my_SM3/SM3_implementation/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/junior_term2/创新实践/SM3/my_SM3/CMakeFiles /mnt/d/junior_term2/创新实践/SM3/my_SM3//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/junior_term2/创新实践/SM3/my_SM3/SM3_implementation/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/junior_term2/创新实践/SM3/my_SM3/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -129,29 +129,29 @@ SM3/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SM3.dir/build.make CMakeFiles/SM3.dir/build
 .PHONY : SM3/fast
 
-main.o: main.cpp.o
-.PHONY : main.o
+mymain.o: mymain.cpp.o
+.PHONY : mymain.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SM3.dir/build.make CMakeFiles/SM3.dir/main.cpp.o
-.PHONY : main.cpp.o
+mymain.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SM3.dir/build.make CMakeFiles/SM3.dir/mymain.cpp.o
+.PHONY : mymain.cpp.o
 
-main.i: main.cpp.i
-.PHONY : main.i
+mymain.i: mymain.cpp.i
+.PHONY : mymain.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SM3.dir/build.make CMakeFiles/SM3.dir/main.cpp.i
-.PHONY : main.cpp.i
+mymain.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SM3.dir/build.make CMakeFiles/SM3.dir/mymain.cpp.i
+.PHONY : mymain.cpp.i
 
-main.s: main.cpp.s
-.PHONY : main.s
+mymain.s: mymain.cpp.s
+.PHONY : mymain.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SM3.dir/build.make CMakeFiles/SM3.dir/main.cpp.s
-.PHONY : main.cpp.s
+mymain.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SM3.dir/build.make CMakeFiles/SM3.dir/mymain.cpp.s
+.PHONY : mymain.cpp.s
 
 mysm3.o: mysm3.cpp.o
 .PHONY : mysm3.o
@@ -186,9 +186,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... SM3"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... mymain.o"
+	@echo "... mymain.i"
+	@echo "... mymain.s"
 	@echo "... mysm3.o"
 	@echo "... mysm3.i"
 	@echo "... mysm3.s"

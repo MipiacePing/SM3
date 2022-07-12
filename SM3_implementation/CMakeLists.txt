@@ -3,4 +3,4 @@ project(mySM3)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(SM3 mymain.cpp mysm3.cpp)
+add_executable(SM3 main.cpp mysm3.cpp)
