@@ -233,3 +233,29 @@ void SM3(unsigned char* input, int msg_bytelen, unsigned char output[SM3_OUTLEN]
     SM3_paddingpart(&ctx, output);      //最后会将ctx中的state拷贝到output中。
     memset(&ctx, 0, sizeof(SM3_CTX));   //清空
 }
+
+void print_Hashvalue(unsigned char buf[],int len)
+{
+    int i;
+    for(i=0;i<len;i++)
+    {
+        printf("%02x",*(buf + i));
+    }
+    printf("\n");
+}
+
+void SM3_str(string input_str)
+{
+    cout<<"Msg: "<<input_str<<endl;
+    unsigned char output[SM3_OUTLEN];
+    SM3((unsigned char*)input_str.c_str(),input_str.length(),output);
+    cout << "Hash:";
+    print_Hashvalue(output,32);
+}
+void SM3_str(string input_str,unsigned char output[SM3_OUTLEN])
+{
+    // cout<<"Msg: "<<input_str<<endl;
+    SM3((unsigned char*)input_str.c_str(),input_str.length(),output);
+    // cout << "Hash:";
+    // print_Hashvalue(output,32);
+}

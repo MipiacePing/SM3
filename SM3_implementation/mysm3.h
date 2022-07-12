@@ -34,6 +34,9 @@ void SM3_paddingpart(SM3_CTX* ctx,unsigned char* output);
 void SM3_W_expend(unsigned int W[68],unsigned int W1[64],const unsigned char* buf);
 void CF(unsigned int W[68], unsigned int W1[64], unsigned int V[]);
 void SM3(unsigned char* input, int msg_bytelen, unsigned char output[32]);
+void SM3_str(string input_str);
+void SM3_str(string input_str,unsigned char output[SM3_OUTLEN]);
+void print_Hashvalue(unsigned char buf[],int len);
 
 /************************************************************************
  * 宏函数名：HOST_c2l
@@ -50,8 +53,9 @@ void SM3(unsigned char* input, int msg_bytelen, unsigned char output[32]);
 /************************************************************************
  * 宏函数名：HOST_l2c
  * 描述: int(long) to char
- * 例:  系统读取整数是按照大端序，比如我们有unsigned int b= 0x12345678,
- *      HOST_l2c(b,a)就可以令a指向{0x12,0x34,0x56,0x78}的开始,如果直接令  = *(int*)a,系统会按照大端读出得到b=0x78563412 
+ * 例:  系统读取整数是按照大端序，比如我们有unsigned int b= 0x12345678,系统中储存的就是78 56 34 12
+ *      如果直接令a指向b的内存，那么a指向的就是{0x78,0x56,0x34,0x12} 
+ *      HOST_l2c(b,a)就可以令a指向{0x12,0x34,0x56,0x78}
  * 
 ************************************************************************/                
 #  define HOST_l2c(l,c) (*(c++)=(unsigned char)(((l)>>24)&0xff),      \
