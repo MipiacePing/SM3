@@ -230,7 +230,16 @@ void SM3_paddingpart(SM3_CTX* ctx,uchar* output)
 void SM3(uchar* input, int msg_bytelen, uchar output[SM3_OUTLEN])
 {
     SM3_CTX ctx;
-    SM3_init(&ctx);
+    //SM3_init(&ctx);
+    ctx.msgLen = ctx.curlen = 0;
+    ctx.state[0] = SM3_A;
+    ctx.state[1] = SM3_B;
+    ctx.state[2] = SM3_C;
+    ctx.state[3] = SM3_D;
+    ctx.state[4] = SM3_E;
+    ctx.state[5] = SM3_F;
+    ctx.state[6] = SM3_G;
+    ctx.state[7] = SM3_H;
     SM3_process(&ctx,input,msg_bytelen);
     SM3_paddingpart(&ctx, output);      //最后会将ctx中的state拷贝到output中。
     memset(&ctx, 0, sizeof(SM3_CTX));   //清空

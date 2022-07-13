@@ -1,13 +1,13 @@
 #include "BirthdayAttack.h"
 #define F(x,c) (x*x)
-int Collisionlen = 16;
+int Collisionlen = 24;
 
 int cmphash(unsigned char* H1,unsigned char* H2,int Len)
 {
     if(Len<=32){ //取int比较
         uint a = *(int*) H1;
         uint b = *(int*) H2;    
-        uint mask = (int)pow(2,Collisionlen)-1;  
+        uint mask = (int)pow(2,Collisionlen)-1; 
         if ((a&mask) == (b&mask))
             return 0;
     }

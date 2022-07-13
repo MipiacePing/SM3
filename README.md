@@ -12,8 +12,19 @@
 ### 主要实现特点
   1.  使用了大量宏函数，减少传统函数调用，但是没有openssl那么极端，比较易读
   2.  最外层使用C++ string作为接口，比较方便
-  3.  注释全
-    4.  
+    3.  注释全
+
+
+
+**result：**
+
+<img src="C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20220713232125898.png" alt="image-20220713232125898" style="zoom:43%;" />
+
+**速度测试：**
+
+​	大概每秒550万+，只有openssl的60%的效率，哭了啊，写那么半天，纯纯造轮子了，但是openssl的全展开确实帅，大大节约了CF的时间，学到就是赚到
+
+<img src="C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20220713234219208.png#" alt="image-20220713234219208" style="zoom:43%;" />
 
 
 
@@ -30,6 +41,18 @@
 **算差的原因：**
 
 ​		假设存在M‘，有SM3(M)=SM3(M')，那么我们在前$2^n$比特范围内找到M'的概率是$\frac{1}{2^n}$，但是我们找两个数m1和m2，满足m1-m2 = M’的概率则是$\frac{C^2_{2^n}}{2^n}$，比如M‘ = 1234，那么1235-1=1234，,1236-2=1234,...总共有$C^2_{2^n}$组。这个比较类似素数检测中的Poll_rho算法。
+
+
+
+**result：**
+
+​		16bit的原像碰撞很快
+
+​		20bit速度也比较快
+
+​		24bit明显变慢，而且受随机数影响大
+
+<img src="C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20220713231831437.png" alt="image-20220713231831437" style="zoom:40%;" />
 
 
 
@@ -52,3 +75,34 @@ while(true)
     if h1 == h2:
         break
 ```
+
+
+
+**result：**
+
+​	**24bit**的碰撞，随机数的影响还是比较大的，有些跑不出来，有些很快
+
+<img src="C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20220713231414792.png" alt="image-20220713231414792" style="zoom:40%;" />
+
+
+
+
+
+## 4_SM3_LenExtenAttack
+
+
+
+**Attack Outline:**
+
+- if you konw Hash(M) for unknown message where $M = M1||padding$ (M is after padding)
+- we can get $Hash(M') = Hash(M1||padding||M3)$  for any block M3
+
+
+
+**Code implementation:**
+
+- 对任意M1，先得到padding后的字节串 $M = M1||padding$，然后计算$H=SM3(M)$，
+- 对任意M3，计算$SM3(M||M3)$和 $H' = SM3(M3)$ where $IV_0 = H$，是否相等。
+- result：
+
+<img src="C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20220713231032942.png#" alt="image-20220713231032942" style="zoom:40%;" />

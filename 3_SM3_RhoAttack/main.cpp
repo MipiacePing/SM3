@@ -4,7 +4,7 @@
 #include<stdlib.h>
 #include<math.h>
 #include<string>
-int Collisionlen = 32;
+int Collisionlen = 24;
 
 int SM3_RhoAttack()
 {
