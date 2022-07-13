@@ -3,6 +3,7 @@
 包含多个文件夹，有SM3实现，SM3生日攻击BirthdayAttack，SM3长度拓展攻击Length extension attack，SM3的Rho攻击
 
 
+
 ## 1：SM3 implementation 实现
 ### 参考
   1.  SM3国家标准：http://c.gb688.cn/bzgk/gb/showGb?type=online&hcno=45B1A67F20F3BF339211C391E9278F5E
@@ -13,6 +14,7 @@
   2.  最外层使用C++ string作为接口，比较方便
   3.  注释全
     4.  
+
 
 
 ## 2：SM3生日攻击BirthdayAttack
@@ -31,9 +33,11 @@
 
 
 
+
 ## 3:	SM3 Rho环路攻击
 
-![image-20220713150915829](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20220713150915829.png)
+![image](https://user-images.githubusercontent.com/105496872/178673803-84228df7-2e3b-4035-a780-5f0d13ddaeaf.png)
+
 
 ​	原理很简单，我们只需要从一个初始值出发，不断计算SM3值，就可能成环（前n bit），在代码中可以参考Floyd判环法：
 
