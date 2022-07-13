@@ -1,6 +1,18 @@
 #include "BirthdayAttack.h"
 #define F(x,c) (x*x)
-int Collisionlen = 16;
+int Collisionlen = 24;
+
+int cmphash(unsigned char* H1,unsigned char* H2,int Len)
+{
+    if(Len<=32){ //取int比较
+        uint a = *(int*) H1;
+        uint b = *(int*) H2;
+        uint mask = (int)pow(2,Collisionlen)-1;  
+        if ((a&mask) == (b&mask))
+            return 0;
+    }
+    return 1;   //暂时不处理超过32bit的比较
+}
 
 int Pollard_Rho(uint image,unsigned char* H,uint c,uint* preiamge) //H = SM3(image) 
 {
@@ -16,7 +28,8 @@ int Pollard_Rho(uint image,unsigned char* H,uint c,uint* preiamge) //H = SM3(ima
         string input = to_string(tmp).c_str();
         unsigned char output[SM3_OUTLEN];
         SM3_str(input,output);
-        if(!memcmp(H,output,Collisionlen/8) && tmp!=image)
+
+        if(!cmphash(H,output,Collisionlen) && tmp!=image)
         {
             *preiamge = tmp;
             cout << "SM3("<<input<<"):";
@@ -40,16 +53,11 @@ void  PreimageAttack(uint image)
     {
         c = rand();
     }
-    cout<<"通过生日攻击，找到原像："<<image<<"的一个碰撞"<<preimage<<"，哈希值的前"<<Collisionlen<<"bit相同"<<endl;
+    cout<<"通过生日攻击，找到原像\""<<image<<"\"的一个碰撞\""<<preimage<<"\"，哈希值的前"<<Collisionlen<<"bit相同"<<endl;
 }
 
 int main()
 {
-    // //生成一个随机数寻找一个原像，因为int 32bit，所以Hash的前16bit一定存在碰撞
-    // cout<<"输入要碰撞的比特位数（8的倍数,请不要大于32,默认16bit）"<<endl;
-    // cin>>Collisionlen;
-    // if(Collisionlen&0b111)
-    //     Collisionlen = 16;
     srand(time(NULL));
     unsigned int image = rand();
     PreimageAttack(image);

@@ -20,3 +20,29 @@
 
 ​		如果我们不是利用生日攻击去找碰撞像，而是单纯找两个消息m1和m2满足SM3(m1)=SM3(m2)，那么最简单的肯定还是穷举，使用hash表，遇到碰撞就输出。
 
+
+
+### 文件说明
+
+
+
+- 主要引入了SM3实现中：
+
+  \#include "../SM3_implementation/mysm3.h"
+
+  \#include "../SM3_implementation/mysm3.cpp"
+
+  同时更新了一下接口，现在可以使用`SM3(string input_str)`直接打印出Hash值，也可以用`SM3(string input_str,unsigned char* ouput)`来获取hash值，简化了接口。
+
+- main函数通过产生随机数字，作为字符串string计算hash值，然后通过Pollard_Rho方法，找到碰撞原像，碰撞的bit长度通过全局变量定义。24bit的碰撞大概需要几秒钟 (Intel i5-9300H)
+
+
+
+
+
+
+
+​			
+
+
+
