@@ -24,14 +24,14 @@ typedef unsigned char uchar;
 
 typedef struct{
     SM3_WORD state[8];        //256bit长，8个SM3_WORD寄存器，就是A-H
-    unsigned long msgLen;     //消息总长度
+    uint msgLen;     //消息总长度
     uint curlen;      //当前block消息长度
     uchar buf[64];    //每次只存一个block，64byte
 }SM3_CTX;
 
 void SM3_init(SM3_CTX* ctx) ;
 void SM3_compress(SM3_CTX* ctx);
-void SM3_process(SM3_CTX* ctx,uchar *input,int msg_bytelen);
+void SM3_process(SM3_CTX* ctx,uchar* input,int msg_bytelen);
 void SM3_paddingpart(SM3_CTX* ctx,uchar* output);
 void SM3_W_expend(uint W[68],uint W1[64],const uchar* buf);
 void CF(uint W[68], uint W1[64], uint V[]);

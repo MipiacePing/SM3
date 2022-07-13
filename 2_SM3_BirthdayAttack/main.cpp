@@ -1,12 +1,12 @@
 #include "BirthdayAttack.h"
 #define F(x,c) (x*x)
-int Collisionlen = 24;
+int Collisionlen = 16;
 
 int cmphash(unsigned char* H1,unsigned char* H2,int Len)
 {
     if(Len<=32){ //取int比较
         uint a = *(int*) H1;
-        uint b = *(int*) H2;
+        uint b = *(int*) H2;    
         uint mask = (int)pow(2,Collisionlen)-1;  
         if ((a&mask) == (b&mask))
             return 0;
@@ -58,8 +58,12 @@ void  PreimageAttack(uint image)
 
 int main()
 {
-    srand(time(NULL));
+    srand(time(NULL)); //初始随机数会直接影响到找到环路的时间，好的时候只需要几秒，不好的时候要几分钟（对于24bit，32bit要更久）
+    clock_t start,end;//定义clock_t变量
+    start = clock();  //开始时间
     unsigned int image = rand();
     PreimageAttack(image);
+    end = clock();   //结束时间
+    cout<<"花费时间：time = "<<double(end-start)/CLOCKS_PER_SEC<<"s"<<endl;  //输出时间（单位：ｓ）
     return 0;
 }

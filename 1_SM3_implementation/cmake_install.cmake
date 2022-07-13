@@ -1,4 +1,4 @@
-# Install script for directory: /mnt/d/junior_term2/创新实践/SM3/my_SM3/SM3_implementation
+# Install script for directory: /mnt/d/junior_term2/创新实践/SM3/my_SM3/1_SM3_implementation
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/mnt/d/junior_term2/创新实践/SM3/my_SM3/SM3_implementation/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/mnt/d/junior_term2/创新实践/SM3/my_SM3/1_SM3_implementation/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

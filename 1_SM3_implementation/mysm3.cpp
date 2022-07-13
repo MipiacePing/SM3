@@ -1,9 +1,3 @@
-#include "mysm3.h"
-#include <iostream>
-#include <string.h>
-#include <stdio.h>
-#include <stdint.h>
-# include <immintrin.h>
 /************************************************************************
  文件名: mysm3.cpp
  日期：2022/7/2 
@@ -16,20 +10,14 @@
     5. CF               //CF函数，详见SM3标准
     6. SM3_W_expend     //消息拓展
 **************************************************************************/
+#include "mysm3.h"
+#include <iostream>
+#include <string.h>
+#include <stdio.h>
+#include <stdint.h>
+#include <immintrin.h>
 
-// 128bit 向量异或操作
-# define _mm_rotl_epi32(X,i) _mm_xor_si128(_mm_slli_epi32(x,(i)), _mm_srli_epi32(x,32-(i)))
-
-/* unsigned char b[i] = unsigned long n 的i  -  i+8位 */
-#ifndef PUT_ULONG_BE
-#define PUT_ULONG_BE(n,b,i)                             \
-{                                                       \
-    (b)[i    ] = (unsigned char) ( (n) >> 24 );       \
-    (b)[i + 1] = (unsigned char) ( (n) >> 16 );       \
-    (b)[i + 2] = (unsigned char) ( (n) >>  8 );       \
-    (b)[i + 3] = (unsigned char) ( (n)       );       \
-}
-#endif
+//#define PaddingOutput 1
 
 void SM3_init(SM3_CTX* ctx){
     ctx->msgLen = ctx->curlen = 0;
@@ -43,62 +31,7 @@ void SM3_init(SM3_CTX* ctx){
     ctx->state[7] = SM3_H;
 }
 
-
-void SM3_process(SM3_CTX* ctx,unsigned char *input,int msg_bytelen)
-{
-    while(msg_bytelen>=64)
-    {
-        memcpy(ctx->buf,input+(int)(ctx->curlen>>9),64);
-        msg_bytelen -= 64;
-        SM3_compress(ctx);
-        ctx->msgLen += 512;
-        ctx->curlen = 64;
-    }
-    //将不足64byte的部分，拷贝到ctx中，注意到，如果是0的话，就不用拷贝了，但是要把curlen清掉
-    memset((void*)ctx->buf,0,64);   //先置零
-    int tmp = msg_bytelen & 63;     //等价mod64 
-    if(tmp)
-    {
-        memcpy(ctx->buf,input+(ctx->msgLen>>9),tmp);
-        ctx->msgLen += tmp <<3;  
-    }
-    //理论上可以直接用总的长度计算msglen，但是考虑到我们的input可能也不是完整的，因此压缩多少计数多少比较合理
-    ctx->curlen = tmp ;        
-}
-
-/************************************************************************
- 函数名:   SM3_paddingpart 
- 描述：    处理最后一个不满64byte的数据块，主要是填充后进行压缩,并将最终结果正确拷贝到output
- Input：   ctx,output
- caller：   SM3_process
- call:      SM3_compress
-
-**************************************************************************/
-void SM3_paddingpart(SM3_CTX* ctx,unsigned char* output)
-{
-    ctx->buf[ctx->curlen] = 0x80;
-    ctx->curlen++;
-    /*如果填充0x80后当前长度大于56，就不满足尾部8字节填充文本长度规则，
-      因此要在下一块中进行填充
-    */
-    if (ctx->curlen >56)
-    {
-        SM3_compress(ctx); //直接先把当前block压缩
-        memset((void*)ctx->buf,0,64);   //置零
-        ctx->curlen = 0;
-    }
-    ctx->buf[63] =  ctx->msgLen & 0xff;
-    ctx->buf[62] = (ctx->msgLen >> 8) & 0xff;
-    ctx->buf[61] = (ctx->msgLen >> 16) & 0xff;
-    ctx->buf[60] = (ctx->msgLen >> 24) & 0xff;
-    //注意此处的curlen和msglen，一直没有动，还是原来的值
-    SM3_compress(ctx);
-    memcpy(output,ctx->state,SM3_OUTLEN);
-    for(int i=0;i<8;i++)
-        (void)HOST_l2c(ctx->state[i],output);   //利用宏函数，将大端序储存在内存的每个int数据倒序存放，这样才能读出正确顺序的char
-}
-
-void SM3_W_expend(unsigned int W[68],unsigned int W1[64],const unsigned char* buf)
+void SM3_W_expend(unsigned int W[68],unsigned int W1[64],const uchar* buf)
 {
     int i=0;
     for(i=0; i<16;i++)
@@ -114,6 +47,26 @@ void SM3_W_expend(unsigned int W[68],unsigned int W1[64],const unsigned char* bu
     {
         W1[i]=W[i]^W[i+4];
     }
+}
+
+/************************************************************************
+ 函数名:   SM3_cpmpress 
+ 描述：    对传入的block进行压缩，主要调用消息拓展和CF函数
+ Input：   ctx
+ call:      SM3_W_expend,CF
+ caller:    SM3_process,SM3_paddingpart
+
+**************************************************************************/
+void SM3_compress(SM3_CTX* ctx)
+{
+    /*
+        迭代压缩, 8个寄存器都是int类型，我们的分块进来的都是char* 的字节类型，
+        比如{0x12,0x34,0x45,0x56}我们必须把他在内存中写成大端序，系统才能读出我们想要的0x123456的形式去运算
+    */
+    unsigned int W[68]; 
+    unsigned int W1[64];
+    SM3_W_expend(W,W1,(const uchar*)ctx->buf);
+    CF(W,W1,ctx->state);
 }
 
 /************************************************************************
@@ -202,22 +155,71 @@ void CF(unsigned int W[68], unsigned int W1[64], unsigned int V[])
 }
 
 /************************************************************************
- 函数名:   SM3_cpmpress 
- 描述：    对传入的block进行压缩，主要调用消息拓展和CF函数
- Input：   ctx
+ 函数名:    SM3_process 
+ 描述：     处理input的前几个block，并将最后一个不满64byte的block预处理一下
+ Input：    ctx,input,msg_bytelen
+ caller：   SM3
+ call:      SM3_compress
 
 **************************************************************************/
-void SM3_compress(SM3_CTX* ctx)
+void SM3_process(SM3_CTX* ctx,uchar* input,int msg_bytelen)
 {
-    /*
-        迭代压缩, 8个寄存器都是int类型，我们的分块进来的都是char* 的字节类型，
-        比如{0x12,0x34,0x45,0x56}我们必须把他在内存中写成大端序，系统才能读出我们想要的0x123456的形式去运算
-    */
-    unsigned int W[68]; 
-    unsigned int W1[64];
-    SM3_W_expend(W,W1,(const unsigned char*)ctx->buf);
-    CF(W,W1,ctx->state);
+    while(msg_bytelen>=64)
+    {
+        memcpy(ctx->buf,input+(int)(ctx->curlen>>9),64);
+        msg_bytelen -= 64;
+        SM3_compress(ctx);
+        ctx->msgLen += 512;
+        ctx->curlen = 64;
+    }
+    //将不足64byte的部分，拷贝到ctx中，注意到，如果是0的话，就不用拷贝了，但是要把curlen清掉
+    memset((void*)ctx->buf,0,64);   //先置零
+    int tmp = msg_bytelen & 63;     //等价mod64 
+    if(tmp)
+    {
+        memcpy(ctx->buf,input+(ctx->msgLen>>3),tmp);
+        ctx->msgLen += tmp <<3;  
+    }
+    //理论上可以直接用总的长度计算msglen，但是考虑到我们的input可能也不是完整的，因此压缩多少计数多少比较合理
+    ctx->curlen = tmp ;        
 }
+
+/************************************************************************
+ 函数名:   SM3_paddingpart 
+ 描述：    处理最后一个不满64byte的数据块，主要是填充后进行压缩,并将最终结果正确拷贝到output
+ Input：   ctx,output
+ caller：   SM3_process
+ call:      SM3_compress
+
+**************************************************************************/
+void SM3_paddingpart(SM3_CTX* ctx,uchar* output)
+{
+    ctx->buf[ctx->curlen] = 0x80;
+    ctx->curlen++;
+    /*如果填充0x80后当前长度大于56，就不满足尾部8字节填充文本长度规则，
+      因此要在下一块中进行填充
+    */
+    if (ctx->curlen >56)
+    {
+        SM3_compress(ctx); //直接先把当前block压缩
+        memset((void*)ctx->buf,0,64);   //置零
+        ctx->curlen = 0;
+    }
+    ctx->buf[63] =  ctx->msgLen & 0xff;
+    ctx->buf[62] = (ctx->msgLen >> 8) & 0xff;
+    ctx->buf[61] = (ctx->msgLen >> 16) & 0xff;
+    ctx->buf[60] = (ctx->msgLen >> 24) & 0xff;
+    //注意此处的curlen和msglen，一直没有动，还是原来的值
+#ifdef PaddingOutput
+    cout<<"Padding后消息："<<endl;
+    print_Hashvalue(ctx->buf,64);
+#endif
+    SM3_compress(ctx);
+    memcpy(output,ctx->state,SM3_OUTLEN);
+    for(int i=0;i<8;i++)
+        (void)HOST_l2c(ctx->state[i],output);   //利用宏函数，将大端序储存在内存的每个int数据倒序存放，这样才能读出正确顺序的char
+}
+
 
 /************************************************************************
  函数名:   SM3
@@ -225,7 +227,7 @@ void SM3_compress(SM3_CTX* ctx)
  Input：   input,msg_bytelen,output
 
 **************************************************************************/
-void SM3(unsigned char* input, int msg_bytelen, unsigned char output[SM3_OUTLEN])
+void SM3(uchar* input, int msg_bytelen, uchar output[SM3_OUTLEN])
 {
     SM3_CTX ctx;
     SM3_init(&ctx);
@@ -234,7 +236,7 @@ void SM3(unsigned char* input, int msg_bytelen, unsigned char output[SM3_OUTLEN]
     memset(&ctx, 0, sizeof(SM3_CTX));   //清空
 }
 
-void print_Hashvalue(unsigned char buf[],int len)
+void print_Hashvalue(uchar buf[],int len)
 {
     int i;
     for(i=0;i<len;i++)
@@ -247,15 +249,13 @@ void print_Hashvalue(unsigned char buf[],int len)
 void SM3(string input_str)
 {
     cout<<"Msg: "<<input_str<<endl;
-    unsigned char output[SM3_OUTLEN];
-    SM3((unsigned char*)input_str.c_str(),input_str.length(),output);
+    uchar output[SM3_OUTLEN];
+    SM3((uchar*)input_str.c_str(),input_str.length(),output);
     cout << "Hash:";
     print_Hashvalue(output,32);
 }
-void SM3(string input_str,unsigned char output[SM3_OUTLEN])
+
+void SM3(string input_str,uchar output[SM3_OUTLEN])
 {
-    // cout<<"Msg: "<<input_str<<endl;
-    SM3((unsigned char*)input_str.c_str(),input_str.length(),output);
-    // cout << "Hash:";
-    // print_Hashvalue(output,32);
+    SM3((uchar*)input_str.c_str(),input_str.length(),output);
 }

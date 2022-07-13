@@ -1,5 +1,5 @@
-#include "../SM3_implementation/mysm3.h"
-#include "../SM3_implementation/mysm3.cpp"
+#include "../1_SM3_implementation/mysm3.h"
+#include "../1_SM3_implementation/mysm3.cpp"
 #include<time.h>
 #include <unistd.h>
 #include<stdlib.h>
