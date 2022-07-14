@@ -21,6 +21,7 @@
 **速度测试：**
 
 ​	大概每秒550万+，只有openssl的60%的效率，哭了啊，写那么半天，纯纯造轮子了，但是openssl的全展开确实帅，大大节约了CF的时间，学到就是赚到
+![image](img src="https://user-images.githubusercontent.com/105496872/178872340-7af360ee-9388-4b2c-a763-753456ee9c1a.png" style="zoom:50%;")
 
 
 
@@ -48,6 +49,7 @@
 
 ​		24bit明显变慢，而且受随机数影响大
 
+![image](img src="https://user-images.githubusercontent.com/105496872/178875482-48b847f7-7b50-40f6-ac26-100b99972244.png" style="zoom:33%;")
 
 
 
@@ -55,7 +57,7 @@
 
 ## 3:	SM3 Rho环路攻击
 
-![image](https://user-images.githubusercontent.com/105496872/178673803-84228df7-2e3b-4035-a780-5f0d13ddaeaf.png)
+![image](img src="https://user-images.githubusercontent.com/105496872/178673803-84228df7-2e3b-4035-a780-5f0d13ddaeaf.png" style="zoom:40%;")
 
 
 ​	原理很简单，我们只需要从一个初始值出发，不断计算SM3值，就可能成环（前n bit），在代码中可以参考Floyd判环法：
@@ -78,6 +80,7 @@ while(true)
 
 ​	**24bit**的碰撞，随机数的影响还是比较大的，有些跑不出来，有些很快
 
+![image](img src="https://user-images.githubusercontent.com/105496872/178882731-9669b3e9-469c-4990-960c-0b2505310462.png" style="zoom:40%;")
 
 
 
@@ -100,4 +103,9 @@ while(true)
 - 对任意M1，先得到padding后的字节串 $M = M1||padding$，然后计算$H=SM3(M)$，
 - 对任意M3，计算$SM3(M||M3)$和 $H' = SM3(M3)$ where $IV_0 = H$，是否相等。
 - result：
+
+**result**
+
+![image](img src="https://user-images.githubusercontent.com/105496872/178882908-845e381f-7df6-4163-9bfe-10e2a9b98b1b.png" style="zoom:40%;")
+
 
