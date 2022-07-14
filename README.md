@@ -12,19 +12,15 @@
 ### 主要实现特点
   1.  使用了大量宏函数，减少传统函数调用，但是没有openssl那么极端，比较易读
   2.  最外层使用C++ string作为接口，比较方便
-    3.  注释全
+        3.  注释全
 
 
 
 **result：**
 
-<img src="C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20220713232125898.png" alt="image-20220713232125898" style="zoom:43%;" />
-
 **速度测试：**
 
 ​	大概每秒550万+，只有openssl的60%的效率，哭了啊，写那么半天，纯纯造轮子了，但是openssl的全展开确实帅，大大节约了CF的时间，学到就是赚到
-
-<img src="C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20220713234219208.png#" alt="image-20220713234219208" style="zoom:43%;" />
 
 
 
@@ -52,7 +48,7 @@
 
 ​		24bit明显变慢，而且受随机数影响大
 
-<img src="C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20220713231831437.png" alt="image-20220713231831437" style="zoom:40%;" />
+
 
 
 
@@ -82,7 +78,7 @@ while(true)
 
 ​	**24bit**的碰撞，随机数的影响还是比较大的，有些跑不出来，有些很快
 
-<img src="C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20220713231414792.png" alt="image-20220713231414792" style="zoom:40%;" />
+
 
 
 
@@ -105,4 +101,3 @@ while(true)
 - 对任意M3，计算$SM3(M||M3)$和 $H' = SM3(M3)$ where $IV_0 = H$，是否相等。
 - result：
 
-<img src="C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20220713231032942.png#" alt="image-20220713231032942" style="zoom:40%;" />
