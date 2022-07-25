@@ -60,7 +60,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /mnt/d/junior_term2/创新实践/SM3/my_SM3/SM3-openSSL
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /mnt/d/junior_term2/创新实践/SM3/my_SM3/SM3-openSSL/build
+CMAKE_BINARY_DIR = /mnt/d/junior_term2/创新实践/SM3/my_SM3/SM3-openSSL
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/junior_term2/创新实践/SM3/my_SM3/SM3-openSSL/build/CMakeFiles /mnt/d/junior_term2/创新实践/SM3/my_SM3/SM3-openSSL/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/junior_term2/创新实践/SM3/my_SM3/SM3-openSSL/CMakeFiles /mnt/d/junior_term2/创新实践/SM3/my_SM3/SM3-openSSL//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/junior_term2/创新实践/SM3/my_SM3/SM3-openSSL/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/junior_term2/创新实践/SM3/my_SM3/SM3-openSSL/CMakeFiles 0
 .PHONY : all
 
 # The main clean target

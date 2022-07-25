@@ -21,7 +21,7 @@ void timetest()
                         0xaa,0xaa,0xaa,0xaa,0xaa,0xaa,0xaa,0xaa,0xaa,0xaa,0xaa,0xaa,0xaa,0xaa,0xaa,
                         0xaa,0xaa,0xaa,0xaa,0xaa,0xaa,0xaa,0xaa,0xaa,0xaa,0xaa,0xaa,0xaa,0xaa,0xaa,
                         0xaa,0xaa,0xaa,0xaa};
-    int64_t t = 1000000; 
+    int64_t t = 10000000; 
     SM3_CTX SMC;
     ossl_sm3_init(&SMC);
     unsigned char md[SM3_DIGEST_LENGTH] = { 0 };
@@ -41,7 +41,7 @@ int main()
     timetest();
     SM3_CTX SMC;
     ossl_sm3_init(&SMC);
-    unsigned char md[SM3_DIGEST_LENGTH] = { 0 };
+    // unsigned char md[SM3_DIGEST_LENGTH] = { 0 };
 
     // const unsigned char Data[1024] = "Hello World";
     // printf("input message:%s\n",Data);
@@ -51,15 +51,15 @@ int main()
     // for (int i = 0; i < SM3_DIGEST_LENGTH; i++) {
     //     printf("%02x ", *(md + i));
     // }
-#  define HOST_c2l(c,l)  (l =(((unsigned long)(*((c)++)))<<24),          \
-                         l|=(((unsigned long)(*((c)++)))<<16),          \
-                         l|=(((unsigned long)(*((c)++)))<< 8),          \
-                         l|=(((unsigned long)(*((c)++)))    )           )
-#  define HOST_l2c(l,c)  (*((c)++)=(unsigned char)(((l)>>24)&0xff),      \
-                         *((c)++)=(unsigned char)(((l)>>16)&0xff),      \
-                         *((c)++)=(unsigned char)(((l)>> 8)&0xff),      \
-                         *((c)++)=(unsigned char)(((l)    )&0xff),      \
-                         l)
+// #  define HOST_c2l(c,l)  (l =(((unsigned long)(*((c)++)))<<24),          \
+//                          l|=(((unsigned long)(*((c)++)))<<16),          \
+//                          l|=(((unsigned long)(*((c)++)))<< 8),          \
+//                          l|=(((unsigned long)(*((c)++)))    )           )
+// #  define HOST_l2c(l,c)  (*((c)++)=(unsigned char)(((l)>>24)&0xff),      \
+//                          *((c)++)=(unsigned char)(((l)>>16)&0xff),      \
+//                          *((c)++)=(unsigned char)(((l)>> 8)&0xff),      \
+//                          *((c)++)=(unsigned char)(((l)    )&0xff),      \
+//                          l)
 
     // unsigned char a[4]={0x12,0x34,0x56,0x78};
     // unsigned char* data = a;
