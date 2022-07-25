@@ -27,10 +27,11 @@
 
 ## 运行截图：
 
+<img src="https://user-images.githubusercontent.com/105496872/180826064-c2a27034-2b74-45bb-8c51-383f656be07f.png" width="600" height="200"/>
+
 
 
 ## SM3_LenExtenAttack原理
-
 
 
 **Attack Outline:**
@@ -39,12 +40,10 @@
 - we can get $Hash(M') = Hash(M1||padding||M3)$  for any block M3
 
 
-
 **Code implementation:**
 
 - 对任意M1，先得到padding后的字节串 $M = M1||padding$，然后计算$H=SM3(M)$，
 - 对任意M3，计算$SM3(M||M3)$和 $H' = SM3(M3)$ where $IV_0 = H$，是否相等。
-
 
 
 **注意事项：**
