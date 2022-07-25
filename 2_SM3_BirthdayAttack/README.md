@@ -28,6 +28,7 @@
 
 ## 运行截图：
 
+<img src="https://user-images.githubusercontent.com/105496872/180818995-8d52eb36-b372-44f8-856b-3a7ffeea4ca0.png" width="500" height="250"/>
 
 
 
