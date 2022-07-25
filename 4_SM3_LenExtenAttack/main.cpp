@@ -15,18 +15,18 @@ void LenExtenAttack(uchar* H,int Len,string M3)
 {
     uchar H1[SM3_OUTLEN];   
     //计算长为Len的消息H，需要多少个64byte
-    int tmp = 64*ceil(Len/64);
-    if(Len&63 > 55)
-        tmp += 64;
+    int pad_len = 64*ceil(Len/64.0);    //注意此处，在O2优化下取整会变成0，导致错误，需要保证取整函数内是浮点数
+    if((Len&63) > 55)
+        pad_len += 64;
 
     //开辟一个char数组，用于表示M' = M||padding||M3,
-    uchar* M = new uchar[tmp+M3.length()];
+    uchar* M = new uchar[pad_len+M3.length()];
 
     //置零
-    memset(M,0,tmp+M3.length());
+    memset(M,0,pad_len+M3.length());
 
     //将M3拷贝到M的尾部
-    memcpy(M+tmp,(const uchar*)M3.c_str(),M3.length());
+    memcpy(M+pad_len,(const uchar*)M3.c_str(),M3.length());
 
     //适用H对ctx的IV进行初始化，单独进行初始化：
     SM3_CTX ctx; //如果用指针，需要new一下分配空间，艹
@@ -53,10 +53,10 @@ void LenExtenAttack(uchar* H,int Len,string M3)
  * 而且已压缩长度应该是已压缩的block的长度 ctx->msglen = tmp*8
  * 
  *********************************************************/
-    ctx.msgLen = tmp<<3;
+    ctx.msgLen = pad_len<<3;
     SM3_process(&ctx,M,M3.length()); 
     SM3_paddingpart(&ctx,H1);
-    cout<<"利用H和Len计算SM3(M3) where IV=H="<<endl;
+    cout<<"利用H和Len计算SM3(M3) where IV=H :"<<endl;
     print_Hashvalue(H1,32);
 }
 
@@ -66,35 +66,36 @@ int main()
     string M3 = "AAA";          //拓展消息
 
     int Len = M1.length();
-    int tmp = 64*ceil(Len/64);
-    if(Len&63 > 55)
-        tmp += 64;
-
+    int pad_len = 64*ceil(Len/64.0);//注意此处，在O2优化下Len/64.0会变成0，导致错误，需要保证取整函数内是浮点数
+    if((Len&63) > 55)
+        pad_len += 64;
     //计算原始消息M1的SM3值
     uchar H[SM3_OUTLEN];
     SM3(M1,H);
-    cout<<"SM3(M)=";
+    cout<<"原始消息M1= "<<M1<<endl;
+    cout<<"SM3(M1)=";
     print_Hashvalue(H,32);
     cout<<endl;
-    uchar* M = new uchar[tmp+M3.length()];
-    memset(M,0,tmp+M3.length());
+    uchar* M = new uchar[pad_len+M3.length()];
+    memset(M,0,pad_len+M3.length());
     memcpy(M,M1.c_str(),M1.length());
     M[M1.length()] = 0x80;
 
     uint M1_len = M1.length()<<3;    //M1_len是消息的bit长度,*8
-    M[(tmp-64)+63] =  M1_len & 0xff;
-    M[(tmp-64)+62] = (M1_len >> 8) & 0xff;
-    M[(tmp-64)+61] = (M1_len >> 16) & 0xff;
-    M[(tmp-64)+60] = (M1_len >> 24) & 0xff;
+    M[(pad_len-64)+63] =  M1_len & 0xff;
+    M[(pad_len-64)+62] = (M1_len >> 8) & 0xff;
+    M[(pad_len-64)+61] = (M1_len >> 16) & 0xff;
+    M[(pad_len-64)+60] = (M1_len >> 24) & 0xff;
 
-    memcpy(M+tmp,(const uchar*)M3.c_str(),M3.length());
+    memcpy(M+pad_len,(const uchar*)M3.c_str(),M3.length());
+    cout<<"拓展消息M3="<<M3<<endl;
     cout<<"级联后消息M=M1||padding||M3:"<<endl;
-    print_Hashvalue(M,tmp+M3.length());
+    print_Hashvalue(M,pad_len+M3.length());
     cout<<endl;
     //计算理论级联后的hash值
     uchar H1[SM3_OUTLEN];
-    SM3(M,tmp+M3.length(),H1);
-    cout<<"级联后SM(M=M1||padding||M3):"<<endl;
+    SM3(M,pad_len+M3.length(),H1);
+    cout<<"级联后SM3(M=M1||padding||M3):"<<endl;
     print_Hashvalue(H1,32);
 
     LenExtenAttack(H,M1.length(),M3);
