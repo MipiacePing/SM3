@@ -31,3 +31,8 @@
 - mySM3.h    使用的之前写的SM3作为hash函数；
 - mySM3.cpp     使用的之前写的SM3作为hash函数
 
+
+
+## 完整REAME（附截图）
+
+https://github.com/MipiacePing/SM3/blob/master/5_MerkleTree/README.pdf
