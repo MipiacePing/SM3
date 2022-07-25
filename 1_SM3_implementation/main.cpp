@@ -22,7 +22,7 @@ void timetest()
 int main(int argc, char* argv[])
 {
     timetest();
-    string input_str = "Hello World";
+    string input_str = "abc";
     SM3(input_str);
     // cout<<"input a string:";
     // getline(cin,input_str); //使用getline获取输入（字符串格式），防止cin遇到空格被打断；
