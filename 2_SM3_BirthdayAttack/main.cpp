@@ -1,8 +1,11 @@
 #include "BirthdayAttack.h"
 #define F(x,c) (x*x)
-int Collisionlen = 24;
+int Collisionlen = 24;  //全局函数，要碰撞的bit位数
 
-int cmphash(unsigned char* H1,unsigned char* H2,int Len)
+
+//我也忘了自己当时为什么要写这个函数，memcmp函数应该就能用
+//我想起来了，是因为我们只比较前几个bit，因为大端序的问题，这些比特是倒着存放的，所以处理了一下
+int cmphash(unsigned char* H1,unsigned char* H2,int Len)    
 {
     if(Len<=32){ //取int比较
         uint a = *(int*) H1;
@@ -20,7 +23,7 @@ int Pollard_Rho(uint image,unsigned char* H,uint c,uint* preiamge) //H = SM3(ima
     uint m2 = m1;
     while(true)
     {
-        m1 = F(m1,c);
+        m1 = F(m1,c);       //使用平方加c的方式，获取一组优质随机数，但是有可能会套圈，用二倍套圈方法判定是否套圈。
         m2 = F(F(m2,c),c);
         if(m2==m1)
             return 1;
@@ -29,9 +32,9 @@ int Pollard_Rho(uint image,unsigned char* H,uint c,uint* preiamge) //H = SM3(ima
         unsigned char output[SM3_OUTLEN];
         SM3(input,output);
 
-        if(!cmphash(H,output,Collisionlen) && tmp!=image)
+        if(!cmphash(H,output,Collisionlen) && tmp!=image)   //如果碰撞了，就返回0，同时打印了一下sm3值
         {
-            *preiamge = tmp;
+            *preiamge = tmp;    
             cout << "SM3("<<input<<"):";
             print_Hashvalue(output,SM3_OUTLEN);
             return 0;
@@ -43,13 +46,12 @@ void  PreimageAttack(uint image)
     uint preimage;
     string image_input=to_string(image);
     unsigned char image_output[SM3_OUTLEN];
-    SM3(image_input,image_output);
-    SM3((unsigned char*)image_input.c_str(),4,image_output);
+    SM3(image_input,image_output);  //算一下传进来的像的hash，然后接下来想要去找原像。
     cout << "SM3("<<image_input<<"):";
     print_Hashvalue(image_output,SM3_OUTLEN);
 
     uint c = rand();
-    while(Pollard_Rho(image,image_output,c,&preimage))
+    while(Pollard_Rho(image,image_output,c,&preimage))  //返回为0时就会结束while循环
     {
         c = rand();
     }

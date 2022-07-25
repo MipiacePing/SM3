@@ -1,4 +1,42 @@
-## 2：SM3生日攻击BirthdayAttack
+## 项目说明 -- SM3生日攻击BirthdayAttack
+
+✅Project: implement the  **birthday** **attack** of reduced SM3
+
+​	可以对**前24bit**进行生日攻击的原像攻击。
+
+
+
+## 运行说明
+
+**开发环境**：Windows WSL（Ubuntu18.04）
+
+**默认执行环境**：Linux
+
+**运行方式：**
+
+- linux：`$: ./SM3`  
+
+
+
+## 文件说明
+
+- main.cpp	主要函数，通过产生随机数字，作为字符串string计算hash值，然后通过Pollard_Rho方法，找到碰撞原像，碰撞的bit长度通过全局变量定义
+- BirthdayAttack.h  头文件，主要引入了上一个project的sm3的接口，同时更新了一下接口，现在可以使用`SM3(string input_str)`直接打印出Hash值，也可以用`SM3(string input_str,unsigned char* ouput)`来获取hash值，简化了接口。
+- Makefile      O2优化，找到一个碰撞比较看运气，一般不会超过30s
+
+
+
+## 运行截图：
+
+
+
+
+
+## SM3生日攻击原理
+
+#### 利用生日攻击找n比特碰撞的原像
+
+​		对于任意消息（这里只考虑数字字符串，其他字符串也可以转化到数字字符串）M，我们计算H=SM3(M)，如果我们只考虑前n比特（下文中的相等都是指前n比特），那么在前0−2n范围内，至少存在一组碰撞的概率几乎是100%。
 
 
 
@@ -6,9 +44,9 @@
 
 ​		对于任意消息（这里只考虑数字字符串，其他字符串也可以转化到数字字符串）M，我们计算H=SM3(M)，如果我们只考虑前n比特（下文中的相等都是指前n比特），那么在前$0-2^{n}$范围内，至少存在一组碰撞的概率几乎是100%。
 
-​		那么对于特定的消息M，如何利用生日攻击去找到这个碰撞像呢？
+​		那么对于特定的消息M，如何利用生日攻击去找到这个碰撞像呢？我们可以任取两个消息m1，m2，计算h=SM3(abs(M1-M2)，直到得到H= h
 
-​		我们可以任取两个消息m1，m2，计算h=SM3(abs(M1-M2)，直到得到H= h
+
 
 **算差的原因：**
 
@@ -19,28 +57,6 @@
 #### 利用生日攻击找到任意一组前n比特的碰撞
 
 ​		如果我们不是利用生日攻击去找碰撞像，而是单纯找两个消息m1和m2满足SM3(m1)=SM3(m2)，那么最简单的肯定还是穷举，使用hash表，遇到碰撞就输出。
-
-
-
-### 文件说明
-
-
-
-- 主要引入了SM3实现中：
-
-  \#include "../SM3_implementation/mysm3.h"
-
-  \#include "../SM3_implementation/mysm3.cpp"
-
-  同时更新了一下接口，现在可以使用`SM3(string input_str)`直接打印出Hash值，也可以用`SM3(string input_str,unsigned char* ouput)`来获取hash值，简化了接口。
-
-- main函数通过产生随机数字，作为字符串string计算hash值，然后通过Pollard_Rho方法，找到碰撞原像，碰撞的bit长度通过全局变量定义。24bit的碰撞大概需要几秒钟 (Intel i5-9300H)
-
-
-
-
-
-
 
 ​			
 

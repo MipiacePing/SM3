@@ -1,4 +1,4 @@
-## 项目说明
+## 项目说明 -- SM3实现和加速
 
 ✅Project: **implement**  and try to optimize SM3
 
