@@ -2,7 +2,7 @@
 
 ✅Project: **implement**  and try to optimize SM3
 
-​	最快可以对64byte数据，**1s做170w+ 次SM3计算**
+​	最快可以对64byte数据，**1s 做 180w+ 次SM3计算**
 
 
 
@@ -29,11 +29,11 @@
 
 - Makefile     CMake生成，linux下可以编译出ELF可执行文件
 
-- SM3             ELF可执行文件，O2优化，速度最快，对64byte数据，可以做170w+/s SM3运算
+- SM3             ELF可执行文件，O2优化，速度较快，对64byte数据，可以做170w+/s SM3运算
 
-- SM3_x64_release.exe  PE可执行文件，速度较快的一种，对64byte数据，可以做150w+/s SM3运算
+- SM3_x64_release.exe  PE可执行文件，速度最快的一种，对64byte数据，可以做180w+/s SM3运算
 
-- SM3_x64_release.exe  PE可执行文件，速度最慢，对64byte数据，可以做120w+/s SM3运算
+- SM3_x86_release.exe  PE可执行文件，速度最慢，对64byte数据，可以做130w+/s SM3运算
 
   
 
@@ -51,4 +51,14 @@
 
 
 ## 运行截图：
+
+**Linux：**
+![image](https://user-images.githubusercontent.com/105496872/180804199-fd3a6d8f-5f4f-455d-9c5f-064ac14c0090.png)
+
+**SM3_x86_release.exe：**
+![image](https://user-images.githubusercontent.com/105496872/180804329-b42ac8d6-c37e-40d4-b688-e169ba512062.png)
+
+
+**SM3_x64_release.exe：**
+![image](https://user-images.githubusercontent.com/105496872/180804457-d8aebb1d-4f49-4d1e-92f5-142f156adcde.png)
 
