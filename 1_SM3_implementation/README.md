@@ -58,10 +58,10 @@
 
 **SM3_x86_release.exe：**
 
-<img src="https://user-images.githubusercontent.com/105496872/180804329-b42ac8d6-c37e-40d4-b688-e169ba512062.png" width="600" height="200"/><br/>
+<img src="https://user-images.githubusercontent.com/105496872/180804329-b42ac8d6-c37e-40d4-b688-e169ba512062.png" width="500" height="150"/><br/>
 
 
 **SM3_x64_release.exe：**
 
-<img src="https://user-images.githubusercontent.com/105496872/180804457-d8aebb1d-4f49-4d1e-92f5-142f156adcde.png" width="600" height="200"/><br/>
+<img src="https://user-images.githubusercontent.com/105496872/180804457-d8aebb1d-4f49-4d1e-92f5-142f156adcde.png" width="500" height="150"/><br/>
 
