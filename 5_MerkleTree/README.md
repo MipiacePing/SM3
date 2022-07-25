@@ -1,8 +1,6 @@
 ## 项目说明
 
-在SM3代码库中
-
-✅Project: implement Merkle Tree following RFC6962
+✅Project: implement **MerkleTree** following RFC6962
 
 ​	
 
