@@ -1,5 +1,6 @@
 OBJS=a.out
 CC=g++
-
+COPT = -O2 -Wall
+CFLAGS = ${COPT}
 a.out:main.cpp
-	$(CC) main.cpp -o a.out
+	$(CC) ${CFLAGS} main.cpp  -o a.out
