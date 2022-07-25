@@ -54,7 +54,7 @@
 
 **Linux：**
 
-<img src="https://user-images.githubusercontent.com/105496872/180804199-fd3a6d8f-5f4f-455d-9c5f-064ac14c0090.png" style="zoom:67%;"/><br/>
+<img src="https://user-images.githubusercontent.com/105496872/180804199-fd3a6d8f-5f4f-455d-9c5f-064ac14c0090.png" style="zoom:20%;"/><br/>
 
 **SM3_x86_release.exe：**
 
