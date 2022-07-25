@@ -27,11 +27,12 @@
 
 ## 运行截图：
 
+<img src="https://user-images.githubusercontent.com/105496872/180821011-9006fd42-2888-4c24-b3c6-f7f7592f9f40.png" width="500" height="225"/>
 
 
 ## SM3 Rho环路攻击原理
 
-![image-20220713150915829](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20220713150915829.png)
+<img src="https://user-images.githubusercontent.com/105496872/180820806-9caab990-d38a-4658-84cc-072ea8c34006.png" width="430" height="100"/>
 
 ​	原理很简单，我们只需要从一个初始值出发，不断计算SM3值，就可能成环（前n bit），在代码中可以参考Floyd判环法：
 
