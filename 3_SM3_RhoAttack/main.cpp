@@ -4,7 +4,7 @@
 #include<stdlib.h>
 #include<math.h>
 #include<string>
-int Collisionlen = 24;
+int Collisionlen = 24;  //全局变量，确定攻击的bit数量
 
 int SM3_RhoAttack()
 {
@@ -16,11 +16,11 @@ int SM3_RhoAttack()
     SM3(h1,SM3_OUTLEN,h2);
     while(true)
     {
-        SM3(h1,SM3_OUTLEN,h1);
+        SM3(h1,SM3_OUTLEN,h1);      //对h1做一次hash
 
+        SM3(h2,SM3_OUTLEN,h2);      //这里对h2做两次hash，
         SM3(h2,SM3_OUTLEN,h2);
-        SM3(h2,SM3_OUTLEN,h2);
-        if(!memcmp(h1,h2,Collisionlen/8))
+        if(!memcmp(h1,h2,Collisionlen/8))   //如果两次hash的值“追上”了一次hash的，说明出现了环
         {
             cout<<"找到一组"<<Collisionlen<<"bit的碰撞，根据Floyd判环法，说明出现环"<<endl;
             cout<<"hash1:";

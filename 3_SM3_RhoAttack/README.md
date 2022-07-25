@@ -1,4 +1,35 @@
-## 3:	SM3 Rho环路攻击
+## 项目说明 -- SM3 Rho环路攻击
+
+✅Project: implement the  **birthday** **attack** of reduced SM3
+
+​	可以对**前24bit**进行Rho环路攻击
+
+
+
+## 运行说明
+
+**开发环境**：Windows WSL（Ubuntu18.04）
+
+**默认执行环境**：Linux
+
+**运行方式：**
+
+- linux：`$: ./a.out`  
+
+
+
+## 文件说明
+
+- main.cpp	主要函数，通过产生随机数字，作为字符串string计算hash值，然后通过Pollard_Rho方法，找到碰撞原像，碰撞的bit长度通过全局变量定义
+- Makefile     O2优化，因为初始是随机数的原因，也比较看运气，一般不会超过20s
+
+
+
+## 运行截图：
+
+
+
+## SM3 Rho环路攻击原理
 
 ![image-20220713150915829](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20220713150915829.png)
 
@@ -15,9 +46,5 @@ while(true)
     if h1 == h2:
         break
 ```
-
-### 代码说明：
-
-​		linux下直接make 然后./a.out，经过测试，24bit很容易跑出来，但是跟初始随机数关系很大，有时候几秒钟，有时候要几分钟，32bit很难跑出来。因为使用的memcmp函数作比较，因此只能以字节（8bit）为基本单位。
 
 ​		
