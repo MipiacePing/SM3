@@ -10,9 +10,12 @@
 
 **默认执行环境**：Linux/Windows
 
-**运行方式：**在linux下，直接运行build/中的MerkleTree可执行文件，build/中也有VS编译的exe文件
+**代码引用：** 无
 
-`$: ./build/MerkleTree`  或 双击 MerkleTree_vs.exe
+**运行方式：**
+
+- **linux:**        `$: ./build/MerkleTree`  
+- **whindows:**  双击 ./build/*.exe
 
 
 

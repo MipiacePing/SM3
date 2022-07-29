@@ -12,6 +12,10 @@
 
 **默认执行环境**：Linux/Windows
 
+**代码参考（比如宏函数等，无直接引用）：**
+
+https://github.com/openssl/openssl/tree/1c0eede9827b0962f1d752fa4ab5d436fa039da4/crypto/sm3
+
 **运行方式：**
 
 - linux：`$: ./SM3`  
